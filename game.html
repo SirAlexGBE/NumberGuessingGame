@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Guessing Game</title>
+    <style>
+      body {
+        background-color: rgb(0, 0, 0);
+      }
+      .container {
+        margin-top: 100px;
+        height: 200px;
+        width: 400px;
+        background-color: rgb(184, 184, 184);
+        border: 5px solid rgb(249, 248, 248);
+        transform: translate(50%);
+        padding: 80px;
+      }
+      label {
+        font-size: 2rem;
+      }
+      input[type="text"],
+      input[type="submit"] {
+        font-size: 2em;
+      }
+      input[type="text"] {
+        height: 30px;
+        width: 220px;
+      }
+      input[type="submit"] {
+        height: 50px;
+        width: 120px;
+        background-color: blue;
+        border-radius: 10px;
+        color: white;
+      }
+      #message {
+        font-size: 1.5em;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form id="guessForm">
+        <label for="Guess">Guess the Number</label>
+        <br />
+        <input type="text" name="Guess" id="Guess" />
+        <br />
+        <br />
+        <input type="submit" value="Guess" />
+      </form>
+      <div id="message"></div>
+    </div>
+    <script>
+      function getRandomInt(min, max) {
+        const minCeiled = Math.ceil(min);
+        const maxFloored = Math.floor(max);
+        return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+      }
+
+      let actNum = getRandomInt(1, 100);
+      let count = 0;
+
+      document.getElementById("guessForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let gue = Number.parseInt(document.getElementById("Guess").value);
+        let messageElement = document.getElementById("message");
+        document.getElementById("Guess").value = "";
+
+        if (isNaN(gue)) {
+          messageElement.textContent = "Please enter a valid number.";
+          return;
+        }
+
+        let diff = actNum - gue;
+        count += 1;
+
+        if (diff > 0) {
+          messageElement.textContent = `The number is larger than ${gue}. Try again!`;
+        } else if (diff < 0) {
+          messageElement.textContent = `The number is Smaller than ${gue}. Try again!`;
+        } else {
+          let score = 100 - count;
+          messageElement.textContent = `You are correct! <br> Congrats, your score is ${score}.`;
+          actNum = getRandomInt(1, 100);
+          count = 0;
+        }
+      });
+    </script>
+  </body>
+</html>
